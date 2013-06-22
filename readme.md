@@ -16,6 +16,8 @@ you still have to prefix with "boostbot: ..."
 	boostbot: bitcoin [currency]
 	boostbot: market [market_symbol]
 
+For the bitcoin and market commands, see: http://bitcoincharts.com/about/markets-api/
+
 ## todo
 
 * More kewl stuff
