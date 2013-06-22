@@ -20,3 +20,8 @@ you still have to prefix with "boostbot: ..."
 
 * More kewl stuff
 * Troll adam and brayton
+
+Ideas:
+
+* San Mateo related info?
+* Other incubator data retrieval?
