@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: botinator
+Version: 0.1
+Summary: A super simple and declarative IRC bot library using regular expressions and cron-like stuff.
+Home-page: http://github.com/the-swerve/botinator
+Author: Jay R Bolton
+Author-email: jayrbolton@gmal.com
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN
