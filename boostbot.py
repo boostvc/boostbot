@@ -1,4 +1,3 @@
-
 from botinator import botinator
 from functools import partial
 import datetime
@@ -19,12 +18,14 @@ def remaining(type, matches, messenger, state):
 	else:
 		return str(d.days) + " days" + suffix
 
+def get_cat(matches, messenger, state):
+	return cat_of_the_day()
+
 def cat_of_the_day():
 	req = urllib2.Request('http://thecatapi.com/api/images/get')
 	res = urllib2.urlopen(req)
 	finalurl = res.geturl()
 	return 'randomcat go -> ' + finalurl
-
 
 # Bitcoin functions
 
@@ -65,6 +66,9 @@ boostbot.listen('boostbot: remaining', partial(remaining, 'days'))
 # Bitcoin stuff
 boostbot.listen('boostbot: bitcoin (.*)', weighted_prices)
 boostbot.listen('boostbot: market (.*)', market_api)
+
+# random cats
+boostbot.listen('boostbot: randomcat', get_cat)
 
 boostbot.cron((None, 12, None, None, None), partial(remaining, 'days'), chan)
 boostbot.cron((None, 0, None, None, None), partial(remaining, 'seconds'), chan)
