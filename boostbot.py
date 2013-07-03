@@ -4,9 +4,10 @@ from functools import partial
 import datetime
 import json
 import urllib
+import urllib2
 
 def remaining(type, matches, messenger, state):
-	end_date = datetime.datetime(2013, 9, 24)
+	end_date = datetime.datetime(2013, 9, 19)
 	d = end_date - datetime.datetime.now()
 	suffix = " remaining in the incubator"
 	if type is 'seconds':
@@ -18,29 +19,39 @@ def remaining(type, matches, messenger, state):
 	else:
 		return str(d.days) + " days" + suffix
 
+def cat_of_the_day():
+	req = urllib2.Request('http://thecatapi.com/api/images/get')
+	res = urllib2.urlopen(req)
+	finalurl = res.geturl()
+	return 'randomcat go -> ' + finalurl
+
+
 # Bitcoin functions
 
-def market_api(matches, messenger, state):
+def get_market(symbol):
 	markets = json.loads(urllib.urlopen("http://api.bitcoincharts.com/v1/markets.json").read())
-	print(markets[0])
-	print(matches[0][:-1])
-	market = filter(lambda x: x['symbol'] == matches[0][:-1], markets)
+	market = filter(lambda x: x['symbol'] == symbol, markets)
 	if market:
 		market = market[0]
 		return str(market['symbol']) + ": [High: " + str(market['high']) + "], [Low: " + str(market['low']) + "], [Last trade: " + str(market['latest_trade']) + "], [Bid: " + str(market['bid']) + "], [Volume: " + str(market['volume']) + "], [Ask: " + str(market['ask']) + "], [Average: " + str(market['avg']) + "]"
 	else:
 		return 'unknown market'
 
-def weighted_prices(matches, messenger, state):
+def market_api(matches, messenger, state):
+	return get_market(matches[0][:-1])
+
+def get_weighted_price(currency):
 	prices = json.loads(urllib.urlopen("http://api.bitcoincharts.com/v1/weighted_prices.json").read())
-	entry = prices.get(matches[0][:-1].upper())
+	entry = prices.get(currency)
 	if entry:
 		return "7 days: " + entry['7d'] + ", 30 days: " + entry['30d'] + ", 24 hours: " + entry['24h']
 	else:
 		return 'unknown currency'
-	
 
-chan = '#botparty'
+def weighted_prices(matches, messenger, state):
+	return get_weighted_price(matches[0][:-1].upper())
+
+chan = '#boostvc'
 boostbot = botinator.Bot('irc.freenode.net')
 boostbot.nick('boostbot')
 boostbot.user_and_ircname('bot', 'Winston Churchill')
@@ -56,5 +67,12 @@ boostbot.listen('boostbot: bitcoin (.*)', weighted_prices)
 boostbot.listen('boostbot: market (.*)', market_api)
 
 boostbot.cron((None, 12, None, None, None), partial(remaining, 'days'), chan)
+boostbot.cron((None, 0, None, None, None), partial(remaining, 'seconds'), chan)
+boostbot.cron((None, 1, None, None, None), partial(get_weighted_price, 'usd'), chan)
+boostbot.cron((None, 2, None, None, None), partial(get_weighted_price, 'usd'), chan)
+boostbot.cron((None, 3, None, None, None), partial(get_market, 'mtgoxUSD'), chan)
+boostbot.cron((None, 4, None, None, None), partial(get_market, 'bitboxUSD'), chan)
+boostbot.cron((None, 5, None, None, None), partial(remaining, 'weeks'), chan)
+boostbot.cron((None, 6, None, None, None), cat_of_the_day, chan)
 
 boostbot.live()

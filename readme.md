@@ -25,5 +25,8 @@ For the bitcoin and market commands, see: http://bitcoincharts.com/about/markets
 
 Ideas:
 
+* Pull random cat gif from catgifpage.com
+* Name - Room - Company registry
+* More stuff for the once-a-day cron
 * San Mateo related info?
 * Other incubator data retrieval?
