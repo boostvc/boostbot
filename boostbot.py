@@ -7,7 +7,7 @@ import urllib2
 
 yelp_key = "tBBMGesDgu4mlkoxw08nKw"
 
-def yelp:
+def yelp():
 	pass
 
 def remaining(type, matches, messenger, state):
