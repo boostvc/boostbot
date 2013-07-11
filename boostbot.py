@@ -68,7 +68,7 @@ boostbot.listen('boostbot: bitcoin (.*)', weighted_prices)
 boostbot.listen('boostbot: market (.*)', market_api)
 
 # random cats
-boostbot.listen('boostbot: randomcat', get_cat)
+boostbot.listen('randomcat', get_cat)
 
 boostbot.cron((None, 12, None, None, None), partial(remaining, 'days'), chan)
 boostbot.cron((None, 0, None, None, None), partial(remaining, 'seconds'), chan)
