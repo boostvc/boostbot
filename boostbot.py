@@ -52,6 +52,12 @@ def get_weighted_price(currency):
 def weighted_prices(matches, messenger, state):
 	return get_weighted_price(matches[0][:-1].upper())
 
+def market_with_arg(symbol, matches, messenger, state):
+	return get_market(symbol)
+
+def price_with_arg(currency, matches, messenger, state): # lol wat
+	return 'current weighted price of bitcoin in usd: ' + get_weighted_price(currency.upper())
+
 chan = '#boostvc'
 boostbot = botinator.Bot('irc.freenode.net')
 boostbot.nick('boostbot')
@@ -70,13 +76,20 @@ boostbot.listen('boostbot: market (.*)', market_api)
 # random cats
 boostbot.listen('boostbot: randomcat', get_cat)
 
+boostbot.listen('boostbot: 1', partial(remaining, 'days'))
+boostbot.listen('boostbot: 2', partial(remaining, 'seconds'))
+boostbot.listen('boostbot: 3', partial(price_with_arg, 'usd'))
+boostbot.listen('boostbot: 4', partial(market_with_arg, 'mtgoxUSD'))
+boostbot.listen('boostbot: 5', partial(market_with_arg, 'bitboxUSD'))
+boostbot.listen('boostbot: 6', partial(remaining, 'weeks'))
+boostbot.listen('boostbot: 7', get_cat)
+
 boostbot.cron((None, 12, None, None, None), partial(remaining, 'days'), chan)
 boostbot.cron((None, 0, None, None, None), partial(remaining, 'seconds'), chan)
-boostbot.cron((None, 1, None, None, None), partial(get_weighted_price, 'usd'), chan)
-boostbot.cron((None, 2, None, None, None), partial(get_weighted_price, 'usd'), chan)
-boostbot.cron((None, 3, None, None, None), partial(get_market, 'mtgoxUSD'), chan)
-boostbot.cron((None, 4, None, None, None), partial(get_market, 'bitboxUSD'), chan)
+boostbot.cron((None, 1, None, None, None), partial(price_with_arg, 'usd'), chan)
+boostbot.cron((None, 3, None, None, None), partial(market_with_arg, 'mtgoxUSD'), chan)
+boostbot.cron((None, 4, None, None, None), partial(market_with_arg, 'bitboxUSD'), chan)
 boostbot.cron((None, 5, None, None, None), partial(remaining, 'weeks'), chan)
-boostbot.cron((None, 6, None, None, None), cat_of_the_day, chan)
+boostbot.cron((None, 6, None, None, None), get_cat, chan)
 
 boostbot.live()
