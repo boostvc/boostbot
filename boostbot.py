@@ -5,6 +5,11 @@ import json
 import urllib
 import urllib2
 
+yelp_key = "tBBMGesDgu4mlkoxw08nKw"
+
+def yelp:
+	pass
+
 def remaining(type, matches, messenger, state):
 	end_date = datetime.datetime(2013, 9, 19)
 	d = end_date - datetime.datetime.now()
@@ -75,14 +80,6 @@ boostbot.listen('boostbot: market (.*)', market_api)
 
 # random cats
 boostbot.listen('randomcat', get_cat)
-
-boostbot.listen('boostbot: 1', partial(remaining, 'days'))
-boostbot.listen('boostbot: 2', partial(remaining, 'seconds'))
-boostbot.listen('boostbot: 3', partial(price_with_arg, 'usd'))
-boostbot.listen('boostbot: 4', partial(market_with_arg, 'mtgoxUSD'))
-boostbot.listen('boostbot: 5', partial(market_with_arg, 'bitboxUSD'))
-boostbot.listen('boostbot: 6', partial(remaining, 'weeks'))
-boostbot.listen('boostbot: 7', get_cat)
 
 boostbot.cron((None, 12, None, None, None), partial(remaining, 'days'), chan)
 boostbot.cron((None, 0, None, None, None), partial(remaining, 'seconds'), chan)
