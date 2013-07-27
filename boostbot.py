@@ -4,6 +4,7 @@ import datetime
 import json
 import urllib
 import urllib2
+import time
 
 def remaining(type, matches, messenger, state):
 	end_date = datetime.datetime(2013, 9, 19)
@@ -34,7 +35,7 @@ def get_market(symbol):
 	market = filter(lambda x: x['symbol'] == symbol, markets)
 	if market:
 		market = market[0]
-		return str(market['symbol']) + ": [High: " + str(market['high']) + "], [Low: " + str(market['low']) + "], [Last trade: " + str(market['latest_trade']) + "], [Bid: " + str(market['bid']) + "], [Volume: " + str(market['volume']) + "], [Ask: " + str(market['ask']) + "], [Average: " + str(market['avg']) + "]"
+		return str(market['symbol']) + ": [High: " + str(market['high']) + "], [Low: " + str(market['low']) + "], [Last trade: " + time.strftime("%D %H:%M", time.localtime(int(market['latest_trade']))) + "], [Bid: " + str(market['bid']) + "], [Volume: " + str(market['volume']) + "], [Ask: " + str(market['ask']) + "], [Average: " + str(market['avg']) + "]"
 	else:
 		return 'unknown market'
 
