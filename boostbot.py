@@ -11,11 +11,11 @@ import time
 
 # Predict who will win at smash bros using what character
 
-def smash_bros_prediction():
+def smash_bros_prediction(matches, messenger, state):
 	characters = ['Captain Falcon', 'Donkey Kong', 'Fox', 'Jigglypuff', 'Kirby', 'Link', 'Luigi', 'Mario', 'Ness', 'Pikachu', 'Samus', 'Yoshi']
 	people = ['Adam', 'Brayton', 'Ross']
-	character.shuffle()
-	people.shuffle()
+	random.shuffle(characters)
+	random.shuffle(people)
 	person0 = people.pop()
 	person1 = people.pop()
 	char = characters.pop()
@@ -90,7 +90,7 @@ def price_with_arg(currency, matches, messenger, state): # lol wat
 
 # Initialize boostbot
 
-chan = '#boostvc'
+chan = '#jayparty'
 boostbot = botinator.Bot('irc.freenode.net')
 boostbot.nick('boostbot')
 boostbot.user_and_ircname('bot', 'Brobot 9000')
@@ -101,6 +101,9 @@ boostbot.listen('boostbot: remaining seconds', partial(remaining, 'seconds'))
 boostbot.listen('boostbot: remaining minutes', partial(remaining, 'minutes'))
 boostbot.listen('boostbot: remaining weeks', partial(remaining, 'weeks'))
 boostbot.listen('boostbot: remaining', partial(remaining, 'days'))
+boostbot.listen('smashbros', smash_bros_prediction)
+
+boostbot.listen('boostbot: help', "boostbot is a brobot botinator with the following commands: https://github.com/boostvc/boostbot/blob/master/commands.md")
 
 # Bitcoin stuff
 boostbot.listen('boostbot: bitcoin (.*)', weighted_prices)
