@@ -90,7 +90,7 @@ def price_with_arg(currency, matches, messenger, state): # lol wat
 
 # Initialize boostbot
 
-chan = '#jayparty'
+chan = '#boostvc'
 boostbot = botinator.Bot('irc.freenode.net')
 boostbot.nick('boostbot')
 boostbot.user_and_ircname('bot', 'Brobot 9000')
